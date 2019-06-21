@@ -1,10 +1,14 @@
 kind: pipeline
-name: update-preview
+name: update-github-pages
+
+clone:
+  disable: true
 
 steps:
-  - name: git-preparation
+  - name: clone
     image: docker:git
     commands:
+      - git clone --depth 1 https://github.com/Beanow/sfosc-sourcecred-cron.git .
       - git submodule init
       - git submodule update
 
@@ -41,7 +45,7 @@ steps:
       - git checkout -b gh-pages
       - git add --all
       - git commit -m "Publishing to gh-pages `date`"
-      - git push -f git@github.com:Beanow/sfosc-sourcecred-demo.git gh-pages
+      - git push -f git@github.com:Beanow/sfosc-sourcecred-cron.git gh-pages
 
 trigger:
   branch:
