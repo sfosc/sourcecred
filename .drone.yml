@@ -2,7 +2,7 @@ kind: pipeline
 name: update-preview
 
 steps:
-  - name: submodules
+  - name: git-preparation
     image: docker:git
     commands:
       - git submodule init
@@ -13,7 +13,13 @@ steps:
     environment:
       SOURCECRED_GITHUB_TOKEN:
         from_secret: SOURCECRED_GITHUB_TOKEN
+      SSH_BOT_KEY:
+        from_secret: SSH_BOT_KEY
     commands:
+      # Use a bot key for reading.
+      - mkdir -p ~/.ssh
+      - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      - echo "$SSH_BOT_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
       - mkdir site
       - ./scripts/prepare_weights.sh
       - sourcecred/scripts/build_static_site.sh --target ./site --repo sfosc/sfosc --repo sfosc/wizard
@@ -24,11 +30,12 @@ steps:
       SSH_DEPLOY_KEY:
         from_secret: SSH_DEPLOY_KEY
     commands:
-      # Store the secret deploy key.
-      - mkdir -p ~/.ssh && echo "$SSH_DEPLOY_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
+      # Switch to the secret deploy key.
+      - mkdir -p ~/.ssh
+      - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      - echo "$SSH_DEPLOY_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
       - cd site
       - git init
-      - git config core.sshCommand 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
       - git config user.email "bot@sfosc.org"
       - git config user.name "Deployment Bot"
       - git checkout -b gh-pages
