@@ -3,7 +3,7 @@
 [![Build Status](https://drone.sfosc.robin-it.com/api/badges/Beanow/sfosc-sourcecred-cron/status.svg)](https://drone.sfosc.robin-it.com/Beanow/sfosc-sourcecred-cron)
 [![SourceCred prototype](https://badgen.net/badge/SourceCred/prototype)](https://beanow.github.io/sfosc-sourcecred-cron/prototype/)
 
-Early prototype using analyzing SourceCred for SFOSC repositories.
+Early prototype analyzing SourceCred for SFOSC repositories.
 
 Currently looks at:
 
