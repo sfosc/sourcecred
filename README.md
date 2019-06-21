@@ -1,7 +1,7 @@
-# SFOSC SourceCred demo
+# SFOSC SourceCred cronjob
 
-[![Build Status](https://drone.sfosc.robin-it.com/api/badges/Beanow/sfosc-sourcecred-demo/status.svg)](https://drone.sfosc.robin-it.com/Beanow/sfosc-sourcecred-demo)
-[![SourceCred prototype](https://badgen.net/badge/SourceCred/prototype)](https://beanow.github.io/sfosc-sourcecred-demo/prototype/)
+[![Build Status](https://drone.sfosc.robin-it.com/api/badges/Beanow/sfosc-sourcecred-cron/status.svg)](https://drone.sfosc.robin-it.com/Beanow/sfosc-sourcecred-cron)
+[![SourceCred prototype](https://badgen.net/badge/SourceCred/prototype)](https://beanow.github.io/sfosc-sourcecred-cron/prototype/)
 
 Early prototype using analyzing SourceCred for SFOSC repositories.
 
@@ -40,4 +40,4 @@ Then run `./scripts/local-debug.sh`.
 Currently we're using a workaround to trigger builds.
 
 1. We're using a self-hosted [Drone.io](https://drone.io) instance to support cronjobs.
-2. The repository it connects to is https://github.com/Beanow/sfosc-sourcecred-demo.
+2. The repository it connects to is https://github.com/Beanow/sfosc-sourcecred-cron.
