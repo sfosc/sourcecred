@@ -1,0 +1,3 @@
+[submodule "sourcecred"]
+	path = sourcecred
+	url = https://github.com/Beanow/sourcecred.git

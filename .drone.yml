@@ -1,0 +1,43 @@
+kind: pipeline
+name: update-preview
+
+steps:
+  - name: submodules
+    image: docker:git
+    commands:
+      - git submodule init
+      - git submodule update
+
+  - name: build
+    image: node:8
+    environment:
+      SOURCECRED_GITHUB_TOKEN:
+        from_secret: SOURCECRED_GITHUB_TOKEN
+    commands:
+      - mkdir site
+      - ./scripts/prepare_weights.sh
+      - sourcecred/scripts/build_static_site.sh --target ./site --repo sfosc/sfosc --repo sfosc/wizard
+
+  - name: commit-and-push
+    image: docker:git
+    environment:
+      SSH_DEPLOY_KEY:
+        from_secret: SSH_DEPLOY_KEY
+    commands:
+      # Store the secret deploy key.
+      - mkdir -p ~/.ssh && echo "$SSH_DEPLOY_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
+      - cd site
+      - git init
+      - git config core.sshCommand 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+      - git config user.email "bot@sfosc.org"
+      - git config user.name "Deployment Bot"
+      - git checkout -b gh-pages
+      - git add --all
+      - git commit -m "Publishing to gh-pages `date`"
+      - git push -f git@github.com:Beanow/sfosc-sourcecred-demo.git gh-pages
+
+trigger:
+  branch:
+  - master
+  event:
+  - push

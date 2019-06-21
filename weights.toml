@@ -1,0 +1,26 @@
+
+[node.github]
+# Any interactions with GitHub issues.
+ISSUE = 2
+
+# Any interactions with GitHub pull requests.
+PULL = 2
+
+# Any interactions with GitHub pull requests reviews.
+REVIEW = 4
+
+# GitHub comments on [issues | pull requests | reviews].
+COMMENT = 2
+
+# Commits in the repository.
+COMMIT = 1
+
+# This weights a repository as a whole.
+# Currently this isn't relevant until multiple repositories are included in the same analysis.
+# In the future it can make individual repos relatively more or less important than others.
+REPO = 4
+
+[node.git]
+# Talked about this weight with @decentralion.
+# It's a bit of a placeholder, node.github.commit is more meaningful in terms of cred flow.
+COMMIT = 0
