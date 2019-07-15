@@ -9,6 +9,7 @@ Currently looks at:
 
 - https://github.com/sfosc/sfosc
 - https://github.com/sfosc/wizard
+- https://github.com/sfosc/sourcecred
 
 ## Weight configuration
 
