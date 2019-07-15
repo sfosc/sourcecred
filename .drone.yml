@@ -26,7 +26,7 @@ steps:
       - echo "$SSH_BOT_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
       - mkdir site
       - ./scripts/prepare_weights.sh
-      - sourcecred/scripts/build_static_site.sh --target ./site --repo sfosc/sfosc --repo sfosc/wizard --cname sfosc.org --weights .weights.json
+      - sourcecred/scripts/build_static_site.sh --target ./site --repo sfosc/sfosc --repo sfosc/wizard --cname sfosc.org --weights "$(pwd)/.weights.json"
 
   - name: commit-and-push
     image: docker:git
