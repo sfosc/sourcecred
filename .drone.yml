@@ -13,7 +13,7 @@ steps:
       - git submodule update
 
   - name: build
-    image: node:8
+    image: node:10
     environment:
       SOURCECRED_GITHUB_TOKEN:
         from_secret: SOURCECRED_GITHUB_TOKEN
@@ -48,5 +48,5 @@ steps:
       - git push -f git@github.com:sfosc/sourcecred.git gh-pages
 
 trigger:
-  cron:
-  - update-github-pages
+  branch:
+    - master

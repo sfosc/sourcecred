@@ -1,6 +1,6 @@
 # SFOSC SourceCred cronjob
 
-[![Build Status](https://drone.sfosc.robin-it.com/api/badges/Beanow/sfosc-sourcecred-cron/status.svg)](https://drone.sfosc.robin-it.com/Beanow/sfosc-sourcecred-cron)
+[![Build Status](https://drone.sfosc.robin-it.com/api/badges/sfosc/sourcecred/status.svg)](https://drone.sfosc.robin-it.com/sfosc/sourcecred)
 [![SourceCred prototype](https://badgen.net/badge/SourceCred/prototype)](https://sfosc.org/sourcecred/prototype/)
 
 Early prototype analyzing SourceCred for SFOSC repositories.
