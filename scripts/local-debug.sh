@@ -7,13 +7,13 @@ cd mkweights
 npm i
 cd ..
 
-cat ./weights.toml | node mkweights > sourcecred/weights.json
+cat ./weights.toml | node mkweights > .weights.json
 
 cd sourcecred
 yarn install
 yarn backend
 
-SOURCECRED_GITHUB_TOKEN=$SOURCECRED_GITHUB_TOKEN node bin/sourcecred.js load sfosc/sfosc
-SOURCECRED_GITHUB_TOKEN=$SOURCECRED_GITHUB_TOKEN node bin/sourcecred.js load sfosc/wizard
+SOURCECRED_GITHUB_TOKEN=$SOURCECRED_GITHUB_TOKEN node bin/sourcecred.js load sfosc/sfosc --weights ../.weights.json
+SOURCECRED_GITHUB_TOKEN=$SOURCECRED_GITHUB_TOKEN node bin/sourcecred.js load sfosc/wizard --weights ../.weights.json
 
 yarn start
