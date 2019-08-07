@@ -54,7 +54,7 @@ echo "Rebuilding static website"
 cd "${toplevel}/sourcecred"
 target="${toplevel}/site"
 [ -d "${target}" ] && rm -rf "${target}"
-yarn -s build --output-path "${target}"
+SOURCECRED_DIRECTORY="${SOURCECRED_DIRECTORY}" yarn -s build --output-path "${target}"
 
 # Import cred data.
 mkdir "${target}/api/"
