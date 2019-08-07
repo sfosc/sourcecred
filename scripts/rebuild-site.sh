@@ -73,7 +73,9 @@ mkdir -p "${widgets_target}"
 yarn
 for repo in $REPOS; do
 	echo "Generating ${repo//\//-}-contributors.svg"
-	SOURCECRED_DIRECTORY="${SOURCECRED_DIRECTORY}" node "${SOURCECRED_BIN}/sourcecred.js" scores "${repo}" | \
-		SVG_MIN_CRED=$SVG_MIN_CRED SVG_MAX_USERS=$SVG_MAX_USERS \
-		./bin/contributor-wall-svg.js > "${widgets_target}/${repo//\//-}-contributors.svg"
+	# Buffer the score output to a file to prevent occasional read errors from STDIN.
+	SOURCECRED_DIRECTORY="${SOURCECRED_DIRECTORY}" node "${SOURCECRED_BIN}/sourcecred.js" scores "${repo}" > "${toplevel}/${repo//\//-}-scores.json"
+	SVG_MIN_CRED=$SVG_MIN_CRED SVG_MAX_USERS=$SVG_MAX_USERS \
+		./bin/contributor-wall-svg.js > "${widgets_target}/${repo//\//-}-contributors.svg" < "${toplevel}/${repo//\//-}-scores.json"
+	rm "${toplevel}/${repo//\//-}-scores.json"
 done
