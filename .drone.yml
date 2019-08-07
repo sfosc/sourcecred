@@ -24,9 +24,7 @@ steps:
       - mkdir -p ~/.ssh
       - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
       - echo "$SSH_BOT_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
-      - mkdir site
-      - ./scripts/prepare_weights.sh
-      - sourcecred/scripts/build_static_site.sh --target ./site --repo sfosc/sfosc --repo sfosc/wizard --cname sfosc.org --weights "$(pwd)/.weights.json"
+      - ./scripts/rebuild-site.sh
 
   - name: commit-and-push
     image: docker:git

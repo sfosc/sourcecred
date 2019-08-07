@@ -38,6 +38,14 @@ yarn backend
 for repo in $REPOS; do
 	SOURCECRED_GITHUB_TOKEN=$SOURCECRED_GITHUB_TOKEN node bin/sourcecred.js load $repo --weights ../.weights.json
 done
+cd ..
 
-# Start a local development server.
-yarn start
+# Generate our widgets using the scores.json export format.
+cd widgets
+yarn
+export SVG_MIN_CRED=4.5
+export SVG_MAX_USERS=50
+for repo in $REPOS; do
+	echo "Generating ${repo//\//-}-contributors.svg"
+	node ../sourcecred/bin/sourcecred.js scores $repo | SOURCECRED_GITHUB_TOKEN=$SOURCECRED_GITHUB_TOKEN ./bin/contributor-wall-svg.js > "../${repo//\//-}-contributors.svg"
+done
