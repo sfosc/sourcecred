@@ -32,7 +32,7 @@ if [ -e "weights.toml" ]; then
 	yarn --production
 	cd ..
 	cat weights.toml | node mkweights > .weights.json
-	WEIGHTS_OPT="--weights .weights.json"
+	WEIGHTS_OPT="--weights ${toplevel}/.weights.json"
 fi
 
 # Rebuild sourcecred dependencies.
