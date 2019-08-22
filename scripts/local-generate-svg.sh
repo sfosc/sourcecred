@@ -44,7 +44,7 @@ cd ..
 cd widgets
 yarn
 export SVG_MIN_CRED=0.5
-export SVG_MAX_USERS=50
+export SVG_MAX_USERS=80
 for repo in $REPOS; do
 	echo "Generating ${repo//\//-}-contributors.svg"
 	# Buffer the score output to a file to prevent occasional read errors from STDIN.

@@ -2,7 +2,7 @@
 
 CNAME="${CNAME:-"sfosc.org"}"
 SVG_MIN_CRED=${SVG_MIN_CRED:-0.5}
-SVG_MAX_USERS=${SVG_MAX_USERS:-50}
+SVG_MAX_USERS=${SVG_MAX_USERS:-80}
 
 toplevel="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 cd "${toplevel}"
