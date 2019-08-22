@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 CNAME="${CNAME:-"sfosc.org"}"
-SVG_MIN_CRED=${SVG_MIN_CRED:-4.5}
+SVG_MIN_CRED=${SVG_MIN_CRED:-0.5}
 SVG_MAX_USERS=${SVG_MAX_USERS:-50}
 
 toplevel="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
