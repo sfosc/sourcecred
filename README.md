@@ -7,6 +7,7 @@ Early prototype analyzing SourceCred for SFOSC repositories.
 
 Currently looks at:
 
+- https://github.com/sfosc (the full organization, using the `@sfosc` project spec)
 - https://github.com/sfosc/sfosc
 - https://github.com/sfosc/wizard
 - https://github.com/sfosc/sourcecred
