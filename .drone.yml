@@ -28,35 +28,26 @@ steps:
     settings:
       restore: true
       cache_key: update-github-pages
+      # Each mount path is stored individually, so you can split them later
+      # without needing a separate cache_key for each of them.
       mount:
         - './sourcecred_data/cache'
         - './sourcecred/node_modules'
         - './widgets/node_modules'
 
-  # - name: build
-  #   image: node:10
-  #   environment:
-  #     SOURCECRED_GITHUB_TOKEN:
-  #       from_secret: SOURCECRED_GITHUB_TOKEN
-  #     SSH_BOT_KEY:
-  #       from_secret: SSH_BOT_KEY
-  #   commands:
-  #     # Use a bot key for reading.
-  #     - mkdir -p ~/.ssh
-  #     - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-  #     - echo "$SSH_BOT_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
-  #     - ./scripts/rebuild-site.sh
-
-  - name: build-dummy
+  - name: build
     image: node:10
+    environment:
+      SOURCECRED_GITHUB_TOKEN:
+        from_secret: SOURCECRED_GITHUB_TOKEN
+      SSH_BOT_KEY:
+        from_secret: SSH_BOT_KEY
     commands:
-      - mkdir -p sourcecred_data/cache sourcecred/node_modules widgets/node_modules
-      - ls -l sourcecred_data/cache
-      - ls -l sourcecred/node_modules
-      - ls -l widgets/node_modules
-      - touch sourcecred_data/cache/testing-cache
-      - touch sourcecred/node_modules/testing-cache
-      - touch widgets/node_modules/testing-cache
+      # Use a bot key for reading.
+      - mkdir -p ~/.ssh
+      - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      - echo "$SSH_BOT_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
+      - ./scripts/rebuild-site.sh
 
   - name: rebuild-cache-sourcecred
     image: meltwater/drone-cache:1
@@ -77,23 +68,23 @@ steps:
         - './sourcecred/node_modules'
         - './widgets/node_modules'
 
-  # - name: commit-and-push
-  #   image: docker:git
-  #   environment:
-  #     SSH_DEPLOY_KEY:
-  #       from_secret: SSH_DEPLOY_KEY
-  #   commands:
-  #     # Switch to the secret deploy key.
-  #     - mkdir -p ~/.ssh
-  #     - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-  #     - echo "$SSH_DEPLOY_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
-  #     - cd site
-  #     - git init
-  #     - git config user.email "bot@sfosc.org"
-  #     - git config user.name "Deployment Bot"
-  #     - git checkout -b gh-pages
-  #     - git add --all
-  #     - git commit -m "Publishing to gh-pages `date`"
+  - name: commit-and-push
+    image: docker:git
+    environment:
+      SSH_DEPLOY_KEY:
+        from_secret: SSH_DEPLOY_KEY
+    commands:
+      # Switch to the secret deploy key.
+      - mkdir -p ~/.ssh
+      - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      - echo "$SSH_DEPLOY_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
+      - cd site
+      - git init
+      - git config user.email "bot@sfosc.org"
+      - git config user.name "Deployment Bot"
+      - git checkout -b gh-pages
+      - git add --all
+      - git commit -m "Publishing to gh-pages `date`"
       # - git push -f git@github.com:sfosc/sourcecred.git gh-pages
 
 # trigger:
