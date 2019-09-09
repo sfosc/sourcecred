@@ -12,6 +12,21 @@ steps:
       - git submodule init
       - git submodule update
 
+  - name: restore-cache
+    image: meltwater/drone-cache:1
+    settings:
+      restore: true
+      cache_key: '{{ .Repo.Namespace }}-{{ .Repo.Name }}/cron-cache'
+      backend: filesystem
+      archive_format: gzip
+      mount:
+        - './sourcecred_data/cache'
+        - './sourcecred/node_modules'
+        - './widgets/node_modules'
+    volumes:
+      - name: cache
+        path: /tmp/cache
+
   - name: build
     image: node:10
     environment:
@@ -25,6 +40,21 @@ steps:
       - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
       - echo "$SSH_BOT_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
       - ./scripts/rebuild-site.sh
+
+  - name: rebuild-cache
+    image: meltwater/drone-cache:1
+    settings:
+      rebuild: true
+      cache_key: '{{ .Repo.Namespace }}-{{ .Repo.Name }}/cron-cache'
+      backend: filesystem
+      archive_format: gzip
+      mount:
+        - './sourcecred_data/cache'
+        - './sourcecred/node_modules'
+        - './widgets/node_modules'
+    volumes:
+      - name: cache
+        path: /tmp/cache
 
   - name: commit-and-push
     image: docker:git
@@ -43,8 +73,13 @@ steps:
       - git checkout -b gh-pages
       - git add --all
       - git commit -m "Publishing to gh-pages `date`"
-      - git push -f git@github.com:sfosc/sourcecred.git gh-pages
+      # - git push -f git@github.com:sfosc/sourcecred.git gh-pages
 
-trigger:
-  branch:
-    - master
+# trigger:
+#   branch:
+#     - master
+
+volumes:
+  - name: cache
+    host:
+      path: /var/cache/drone
