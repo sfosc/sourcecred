@@ -51,6 +51,8 @@ steps:
 
   - name: rebuild-cache
     image: meltwater/drone-cache:1
+    # This is called an alias (the *name), and references an anchor (the &name) for reusing it's values.
+    # It's part of the YAML specification.
     environment: *minio-cache-env
     settings:
       rebuild: true
