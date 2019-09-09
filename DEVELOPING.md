@@ -56,3 +56,24 @@ This secret needs to hold the _private key_ part, and should be RSA only.
 The public part of the key is configured at https://github.com/sfosc/sourcecred/settings/keys.
 
 You can generate a new RSA keypair using `ssh-keygen -f deploy-key`.
+
+### Caching
+
+For caching we currently cache:
+
+- `./sourcecred_data/cache`
+- `./sourcecred/node_modules`
+- `./widgets/node_modules`
+
+The sourcecred data cache stores information we would retrieve from the GitHub API and saves a lot of calls there
+as you don't need to download the entire history of your repositories again, only changes since the last run.
+The node_modules speed up yarn installs. Particularly the `better-sqlite3` dependency, which compiles from source
+with node-gyp and takes several minutes to do so.
+
+The current Drone configuration also uses ["host volumes"](https://docker-runner.docs.drone.io/configuration/volumes/host/)
+for this. This is only available when you self-host a Drone instance because:
+
+>  This setting is only available to trusted repositories, since mounting host machine volumes is a security risk.
+
+In a different environment you may need to adjust the configuration to use a different storage backend instead.
+For example AWS S3, which is supported by the caching plugin used: [meltwater/drone-cache](https://github.com/meltwater/drone-cache/blob/master/docs/examples/drone-1.0.md).
