@@ -73,11 +73,11 @@ steps:
       - git checkout -b gh-pages
       - git add --all
       - git commit -m "Publishing to gh-pages `date`"
-      # - git push -f git@github.com:sfosc/sourcecred.git gh-pages
+      - git push -f git@github.com:sfosc/sourcecred.git gh-pages
 
-# trigger:
-#   branch:
-#     - master
+trigger:
+  branch:
+    - master
 
 volumes:
   - name: cache
