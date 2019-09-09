@@ -56,3 +56,19 @@ This secret needs to hold the _private key_ part, and should be RSA only.
 The public part of the key is configured at https://github.com/sfosc/sourcecred/settings/keys.
 
 You can generate a new RSA keypair using `ssh-keygen -f deploy-key`.
+
+### Caching
+
+For caching we currently cache:
+
+- `./sourcecred_data/cache`
+- `./sourcecred/node_modules`
+- `./widgets/node_modules`
+
+The sourcecred data cache stores information we would retrieve from the GitHub API and saves a lot of calls there,
+as you don't need to download the entire history of your repositories again, only changes since the last run.
+The node_modules speed up yarn installs. Particularly the `better-sqlite3` dependency, which compiles from source
+with node-gyp and takes several minutes to do so.
+
+Drone does not support a _safe_ local caching mechanism out of the box. So we're adding a self-hosted [minio](https://min.io/) instance
+and configured the caching plugin: [meltwater/drone-cache](https://github.com/meltwater/drone-cache/blob/master/docs/examples/drone-1.0.md).
