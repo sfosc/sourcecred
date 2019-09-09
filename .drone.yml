@@ -49,7 +49,7 @@ steps:
       - echo "$SSH_BOT_KEY" > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
       - ./scripts/rebuild-site.sh
 
-  - name: rebuild-cache-sourcecred
+  - name: rebuild-cache
     image: meltwater/drone-cache:1
     environment: *minio-cache-env
     settings:
@@ -57,14 +57,6 @@ steps:
       cache_key: update-github-pages
       mount:
         - './sourcecred_data/cache'
-
-  - name: rebuild-cache-node-modules
-    image: meltwater/drone-cache:1
-    environment: *minio-cache-env
-    settings:
-      rebuild: true
-      cache_key: update-github-pages
-      mount:
         - './sourcecred/node_modules'
         - './widgets/node_modules'
 
